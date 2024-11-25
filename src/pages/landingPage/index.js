@@ -50,14 +50,14 @@ const LandingPage = () => (
         sx={{
           position: 'absolute',
           bottom: {
-            xs: '-70%',
+            xs: '-75%',
             sm: '-45%', 
             md: '-25%',
             lg: '-30%' 
           },
           left: '50%',
           transform: 'translateX(-50%)',
-          width: { xs: '80%', sm: '70%', md: '70%' },
+          width: { xs: '90%', sm: '80%', md: '70%' },
           zIndex: 2,
         }}
       >
