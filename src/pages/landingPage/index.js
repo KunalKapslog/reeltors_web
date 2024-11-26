@@ -89,7 +89,7 @@ const LandingPage = () => {
         }}
       />
       <NewListings />
-      <Box sx={{ background: '#F5F5F5', padding: { xs: 0, md: 10 } }}>
+      <Box sx={{ background: '#F5F5F5', padding: { xs: 0, md: 2 } }}>
 
         {/* Other Components */}
         <CommunitySection />

@@ -13,7 +13,8 @@ const FooterSideBar = () => {
             }}
         >
             {/* About Us and Get Help Links */}
-            <Box py={2} sx={{ border: '1px solid #BBBBBB', px: 2, borderRadius: '8px' }}>
+            <Box py={3} sx={{ border: '1px solid #BBBBBB', borderRadius: '8px' }}>
+
                 <Button
                     sx={{
                         display: "flex",
@@ -21,18 +22,18 @@ const FooterSideBar = () => {
                         alignItems: "center",
                         width: "100%",
                         textTransform: "none",
-                        fontWeight: 500,
                         fontSize: "14px",
-                        color: "#333",
+                        color: "#1E1B0C",
                     }}
                 >
                     <Box sx={{ display: "flex", alignItems: "center", gap: "8px" }}>
                         <InfoOutlinedIcon />
-                        <Typography sx={{ fontWeight: 500 }}>About Us</Typography>
+                        <Typography sx={{ color: "#1E1B0C", fontSize: '14px', opacity: 0.8 }}>About Us</Typography>
                     </Box>
-                    <ChevronRightOutlinedIcon />
+                    <ChevronRightOutlinedIcon sx={{ color: '#646464', opacity: 0.45 }} />
                 </Button>
-                <Divider />
+
+                <Divider sx={{ ml: 2 }} />
                 <Button
                     sx={{
                         display: "flex",
@@ -43,16 +44,17 @@ const FooterSideBar = () => {
                         fontWeight: 500,
                         fontSize: "14px",
                         color: "#333",
+                        py: 1
                     }}
                 >
                     <Box sx={{ display: "flex", alignItems: "center", gap: "8px" }}>
                         <HelpOutlineOutlinedIcon />
-                        <Typography sx={{ fontWeight: 500 }}>Get Help</Typography>
+                        <Typography sx={{ color: "#1E1B0C", fontSize: '14px', opacity: 0.8 }}>Get Help</Typography>
                     </Box>
 
-                    <ChevronRightOutlinedIcon />
+                    <ChevronRightOutlinedIcon sx={{ color: '#646464', opacity: 0.45 }} />
                 </Button>
-                <Divider />
+                <Divider sx={{ ml: 2 }} />
             </Box>
 
             {/* App Download Section */}

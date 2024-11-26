@@ -24,9 +24,8 @@ const Sidebar = ({ isOpen, toggleSidebar }) => {
                     padding: 2,
                 }}
             >
-                {/* Close Button */}
                 <Box
-                
+
                     sx={{
                         display: "flex",
                         justifyContent: 'flex-start',

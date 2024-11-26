@@ -47,7 +47,7 @@ function ExploreProperties() {
           display: "flex",
           justifyContent: "space-between",
           alignItems: "center",
-          marginBottom: 3,
+          marginBottom: 2,
         }}
       >
         <Typography

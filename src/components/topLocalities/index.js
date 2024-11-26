@@ -57,7 +57,7 @@ function TopLocalities() {
           display: "flex",
           justifyContent: "space-between",
           alignItems: "center",
-          marginBottom: 3,
+          marginBottom: 2,
         }}
       >
         <Typography variant="h5" fontWeight="bold" sx={{

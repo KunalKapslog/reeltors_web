@@ -27,7 +27,7 @@ function CommunitySection() {
   }, []);
 
   return (
-    <Box sx={{ textAlign: "center", padding: 2, py: 10 }}>
+    <Box sx={{ textAlign: "center", padding: 2, py: 5 }}>
       {/* Header Section */}
       <Box
         sx={{
