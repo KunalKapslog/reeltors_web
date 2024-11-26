@@ -45,7 +45,7 @@ function PopularCommunities() {
   ];
 
   return (
-    <Box sx={{ padding: 4, textAlign: "center" }}>
+    <Box sx={{textAlign: "center" }}>
       {/* Header */}
       <Typography
         variant="h6"

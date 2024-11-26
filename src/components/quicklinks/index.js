@@ -18,7 +18,7 @@ function QuickLinks() {
   };
 
   return (
-    <Box p={4}>
+    <Box p={1}>
       {/* Title with Expand/Collapse Icon */}
       <Box sx={{ display: "flex", alignItems: "center", cursor: "pointer" }} onClick={toggleCollapse}>
         <Typography

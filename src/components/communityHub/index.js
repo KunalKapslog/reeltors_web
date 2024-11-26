@@ -14,7 +14,7 @@ function CommunityHubCTA() {
         padding: { xs: 2, md: 10 },
         borderRadius: 3,
         marginY: 4,
-        width: { xs: "90%", sm: "80%", md: "100%" },
+        width: { xs: "95%", sm: "80%", md: "98%" },
         mx: "auto",
       }}
     >
@@ -24,32 +24,31 @@ function CommunityHubCTA() {
           textAlign: { xs: "center", md: "left" },
         }}
       >
-      <Typography
-  variant="h4"
-  fontWeight="bold"
-  sx={{
-    marginBottom: 1,
-    fontSize: { xs: "1.5rem", md: "2rem" },
-    fontFamily: 'Poppins, sans-serif', 
-    fontWeight: 600,
-  }}
->
-  Explore Our Community Hub!
-</Typography>
-
+        <Typography
+          variant="h5"
+          fontWeight="bold"
+          sx={{
+            marginBottom: 1,
+            fontFamily: 'Poppins, sans-serif',
+            fontWeight: 600,
+          }}
+        >
+          Explore Our Community Hub!
+        </Typography>
+{/* 
         <Typography
           variant="body1"
           sx={{
             color: "white",
             fontSize: { xs: "1rem", md: "1.1rem" },
-            fontFamily: "Gilroy-MediumItalic", 
-            mt:2
+            fontFamily: "Gilroy-MediumItalic",
+            mt: 2
           }}
         >
           Network with your local communities to
           <br />
-           align in next line
-        </Typography>
+          align in next line
+        </Typography> */}
       </Box>
 
       {/* Right Section: Button */}
@@ -60,7 +59,7 @@ function CommunityHubCTA() {
           color: "black",
           textTransform: "none",
           fontWeight: "bold",
-          paddingY: 1.5,
+          paddingY: 1.1,
           paddingX: { xs: 4, md: 6 },
           borderRadius: 2,
           boxShadow: "none",

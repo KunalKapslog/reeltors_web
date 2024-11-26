@@ -13,9 +13,9 @@ function PopularCities() {
   ];
 
   return (
-    <Box sx={{ padding: 4 }}>
+    <Box sx={{ padding: 1 }}>
       {/* Header Section */}
-      <Typography variant="h5" fontWeight="bold" 
+      <Typography variant="h6" fontWeight="bold" 
       sx={{ marginBottom: 4,
         fontFamily: "Gilroy, sans-serif",
         fontWeight: 600,

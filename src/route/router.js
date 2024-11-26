@@ -1,14 +1,26 @@
-import React from 'react';
+import React, { Suspense, lazy } from 'react';
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
-import LandingPage from '../pages/landingPage';
+import NotFoundPage from '../pages/404Page';
+
+const LandingPage = lazy(() => import('../pages/landingPage'));
+const LoginPage = lazy(() => import('../pages/registration/login'));
+const SignUpPage = lazy(() => import('../pages/registration/signUp'));
+
+
+
 const RouterComponent = () => {
   return (
     <Router>
-      <Routes>
-        <Route path="/" element={<LandingPage />} />
-      </Routes>
+      <Suspense fallback={<div>Loading...</div>}>
+        <Routes>
+          <Route path="/" element={<LandingPage />} />
+          <Route path="/login" element={<LoginPage />} />
+          <Route path="/signup" element={<SignUpPage />} />
+          <Route path="*" element={<NotFoundPage />} /> 
+        </Routes>
+      </Suspense>
     </Router>
   );
 };
 
-export default RouterComponent; 
+export default RouterComponent;

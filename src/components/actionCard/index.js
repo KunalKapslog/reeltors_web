@@ -21,7 +21,8 @@ function ActionCards() {
       justifyContent="center"
       alignItems="stretch"
       gap={4}
-      p={4}
+      p={1}
+      py={4}
       bgcolor="#f5f5f5"
     >
       {/* Toast Container */}
