@@ -9,6 +9,7 @@ import GradientButton from "./components/postProperty";
 import { FavouritesGrid, PropertyGrid } from "./components/favouriteGrid";
 import FooterSideBar from "./components/footer";
 import { ReactComponent as CloseSideBar } from "../../assets/icons/Frame.svg";
+import bgImage from "./bg.png"
 
 
 const Sidebar = ({ isOpen, toggleSidebar }) => {
@@ -38,7 +39,17 @@ const Sidebar = ({ isOpen, toggleSidebar }) => {
                 </Box>
 
                 {/* Header Section */}
-                <HeaderSection />
+                <Box sx={{
+
+                    backgroundImage: `url(${bgImage})`,
+                    backgroundSize: 'cover',
+                    backgroundPosition: "center",
+                    backgroundRepeat: "no-repeat",
+                    borderRadius: "8px",
+                }}>
+
+                    <HeaderSection />
+                </Box>
 
                 {/* Menu Items */}
                 <FavouritesGrid />

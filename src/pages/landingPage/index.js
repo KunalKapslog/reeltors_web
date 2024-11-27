@@ -4,7 +4,6 @@ import bgImage from "../../assets/images/bgLanding1.png";
 import PropertySearch from '../../components/searchBar';
 import NewListings from '../../components/newListing';
 import CommunitySection from '../../components/communitySection';
-import Properties from '../../components/property';
 import CommunityHubCTA from '../../components/communityHub';
 import QuickLinks from '../../components/quicklinks';
 import ActionCards from '../../components/actionCard';
@@ -15,10 +14,14 @@ import PopularCommunities from '../../components/popularCommuity';
 import PopularCities from '../../components/popularCities';
 import Header from '../../components/header';
 import Footer from '../../components/footer';
+import { useLoginModal } from '../../context';
+import LoginModal from '../../components/LoginModal';
+
 
 const LandingPage = () => {
 
   const [anchorEl, setAnchorEl] = React.useState(null);
+  const { isLoginModalOpen, closeLoginModal } = useLoginModal();
 
   const handleMenuOpen = (event) => {
     setAnchorEl(event.currentTarget);
@@ -27,10 +30,11 @@ const LandingPage = () => {
   const handleMenuClose = () => {
     setAnchorEl(null);
   };
-  
+
   return (
     <>
       <Header onMenuOpen={handleMenuOpen} anchorEl={anchorEl} onMenuClose={handleMenuClose} />
+      <LoginModal open={isLoginModalOpen} onClose={closeLoginModal} />
       <Box
         sx={{
           height: { xs: '150px', sm: '200px', md: '450px' },
@@ -53,7 +57,7 @@ const LandingPage = () => {
             fontSize: { xs: '1.5rem', sm: '2rem', md: '4rem' },
             fontWeight: 'bold',
             fontFamily: 'Gilroy-Heavy, sans-serif',
-            mb: 4
+            mb: 6
 
           }}
         >
@@ -65,20 +69,21 @@ const LandingPage = () => {
           sx={{
             position: 'absolute',
             bottom: {
-              xs: '-75%',
+              xs: '-55%',
               sm: '-45%',
               md: '-25%',
               lg: '-30%'
             },
             left: '50%',
             transform: 'translateX(-50%)',
-            width: { xs: '90%', sm: '80%', md: '70%' },
+            width: { xs: '100%', sm: '80%', md: '70%' },
             zIndex: 2,
           }}
         >
           <PropertySearch />
         </Box>
       </Box>
+
 
       {/* Spacer below PropertySearch */}
       <Box

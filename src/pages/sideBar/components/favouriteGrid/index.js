@@ -1,10 +1,7 @@
 import React from "react";
 import { Box, Typography } from "@mui/material";
-import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
-import LockIcon from "@mui/icons-material/Lock";
-import HomeIcon from "@mui/icons-material/Home";
-import BusinessIcon from "@mui/icons-material/Business";
-import ApartmentIcon from "@mui/icons-material/Apartment";
+import { ApartmentIcon,HeartIcon } from "../../../../assets/icons";
+
 
 const FavouriteCard = ({ icon, title }) => {
   return (
@@ -16,7 +13,7 @@ const FavouriteCard = ({ icon, title }) => {
         justifyContent: "center", 
         border: "1px solid #ccc",
         borderRadius: "8px",
-        padding: "12px",
+        padding: "8px",
         bgcolor: "#fff",
         cursor: "pointer",
         transition: "all 0.3s ease",
@@ -29,8 +26,8 @@ const FavouriteCard = ({ icon, title }) => {
         sx={{
           bgcolor: "#F8F8F8",
           borderRadius: "50%",
-          width: 18,
-          height: 18,
+          width: 30,
+          height: 30,
           display: "flex",
           alignItems: "center",
           justifyContent: "center",
@@ -66,12 +63,12 @@ export const FavouritesGrid = () => {
       }}
     >
       <FavouriteCard
-        icon={<FavoriteBorderIcon sx={{ fontSize: 20, color: "grey" }} />}
+        icon={<HeartIcon height={30} width={30} />}
         title="Favourites"
       />
 
       <FavouriteCard
-        icon={<LockIcon sx={{ fontSize: 20, color: "grey" }} />}
+        icon={<ApartmentIcon height={30} width={30} />}
         title="Your properties"
       />
     </Box>
@@ -91,19 +88,19 @@ export const PropertyGrid = () => {
     >
       {/* Buy Card */}
       <FavouriteCard
-        icon={<HomeIcon sx={{ fontSize: 20, color: "grey" }} />}
+        icon={<ApartmentIcon height={30} width={30} />}
         title="Buy"
       />
 
       {/* Rent Card */}
       <FavouriteCard
-        icon={<ApartmentIcon sx={{ fontSize: 20, color: "grey" }} />}
+        icon={<ApartmentIcon height={30} width={30} />}
         title="Rent"
       />
 
       {/* Commercial Card */}
       <FavouriteCard
-        icon={<BusinessIcon sx={{ fontSize: 20, color: "grey" }} />}
+        icon={<ApartmentIcon sx={{ fontSize: 50, color: "grey" }} />}
         title="Commercial"
       />
     </Box>

@@ -1,49 +1,69 @@
-import React from "react";
-import { Box, Typography, Tabs, Tab, Card, CardMedia, CardContent, Button } from "@mui/material";
-import VisibilityIcon from "@mui/icons-material/Visibility";
-import BookmarkBorderIcon from "@mui/icons-material/BookmarkBorder";
-import houseImage from "../../assets/images/house.png"
-import bookmarkIcon from "../../assets/icons/bookmark.svg"
+import React, { useEffect, useState } from "react";
+import { Box, Typography, Tabs, Tab } from "@mui/material";
+import PropertyCard from "../cards/propertyCard";
 
+const propertiesData =
+  [
+    {
+      "title": "3 BHK Apartment in Janakpuri",
+      "location": "Janakpuri, Delhi",
+      "area": "240 sq. ft",
+      "details": "2 Bedrooms | 3 Bathrooms | 1 Balcony",
+      "views": "5k+",
+      "imageUrl": "house.png"
+    },
+    {
+      "title": "2 BHK Apartment in Dwarka",
+      "location": "Dwarka, Delhi",
+      "area": "180 sq. ft",
+      "details": "1 Bedroom | 2 Bathrooms | 1 Balcony",
+      "views": "3k+",
+      "imageUrl": "house.png"
+    },
+    {
+      "title": "4 BHK Apartment in Uttamnagar",
+      "location": "Uttamnagar, Delhi",
+      "area": "320 sq. ft",
+      "details": "3 Bedrooms | 4 Bathrooms | 2 Balconies",
+      "views": "10k+",
+      "imageUrl": "house.png"
+    },
+    {
+      "title": "1 BHK Apartment in Rohini",
+      "location": "Rohini, Delhi",
+      "area": "120 sq. ft",
+      "details": "1 Bedroom | 1 Bathroom | 1 Balcony",
+      "views": "1k+",
+      "imageUrl": "house.png"
+    },
+    {
+      "title": "2 BHK Apartment in Karol Bagh",
+      "location": "Karol Bagh, Delhi",
+      "area": "200 sq. ft",
+      "details": "2 Bedrooms | 2 Bathrooms | 1 Balcony",
+      "views": "4k+",
+      "imageUrl": "house.png"
+    }
+  ]
 
 
 function TopLocalities() {
-  const properties = [
-    {
-      title: "3 BHK Apartment",
-      location: "Sector 35, Chandigarh",
-      area: "240 sq. ft",
-      details: "2 Bedrooms | 3 Bathrooms | 1 Balcony",
-      views: "5k+",
-      imageUrl: houseImage,
-    },
-    {
-      title: "3 BHK Apartment",
-      location: "Sector 35, Chandigarh",
-      area: "240 sq. ft",
-      details: "2 Bedrooms | 3 Bathrooms | 1 Balcony",
-      views: "5k+",
-      imageUrl: houseImage,
-    },
-    {
-      title: "3 BHK Apartment",
-      location: "Sector 35, Chandigarh",
-      area: "240 sq. ft",
-      details: "2 Bedrooms | 3 Bathrooms | 1 Balcony",
-      views: "5k+",
-      imageUrl: houseImage,
-    },
-    {
-      title: "3 BHK Apartment",
-      location: "Sector 35, Chandigarh",
-      area: "240 sq. ft",
-      details: "2 Bedrooms | 3 Bathrooms | 1 Balcony",
-      views: "5k+",
-      imageUrl: houseImage,
-    },
-  ];
+  const [properties, setProperties] = useState([]);
+  const [selectedLocality, setSelectedLocality] = useState(0);
 
-  const [selectedLocality, setSelectedLocality] = React.useState(0);
+  const localities = ["Janakpuri", "Dwarka", "Uttamnagar", "Rohini", "Karol Bagh"];
+
+  useEffect(() => {
+    const propertiesWithImages = propertiesData.map((property) => ({
+      ...property,
+      imageUrl: require(`../../assets/images/${property.imageUrl}`),
+    }));
+    setProperties(propertiesWithImages);
+  }, []);
+
+  const filteredProperties = properties.filter((property) =>
+    property.location.toLowerCase().includes(localities[selectedLocality].toLowerCase())
+  );
 
   const handleTabChange = (event, newValue) => {
     setSelectedLocality(newValue);
@@ -51,42 +71,50 @@ function TopLocalities() {
 
   return (
     <Box sx={{ padding: 1 }}>
-      {/* Header Section */}
       <Box
         sx={{
           display: "flex",
           justifyContent: "space-between",
           alignItems: "center",
-          marginBottom: 2,
         }}
       >
-        <Typography variant="h5" fontWeight="bold" sx={{
-          fontFamily: "Gilroy, sans-serif",
-          fontWeight: 600,
-          fontStyle: "italic",
-          position: "relative",
-          display: "inline-block",
-          "&::after": {
-            content: '""',
-            position: "absolute",
-            bottom: "-4px",
-            left: 0,
-            width: "15%",
-            height: "3px",
-            background: "linear-gradient(90deg, #FF3131, #991D1D)",
-            borderRadius: "2px",
-          },
-        }}>
+        <Typography
+          variant="h5"
+          fontWeight="bold"
+          sx={{
+            fontFamily: "Gilroy, sans-serif",
+            fontWeight: 600,
+            fontStyle: "italic",
+            position: "relative",
+            display: "inline-block",
+            "&::after": {
+              content: '""',
+              position: "absolute",
+              bottom: "-4px",
+              left: 0,
+              width: "15%",
+              height: "3px",
+              background: "linear-gradient(90deg, #FF3131, #991D1D)",
+              borderRadius: "2px",
+            },
+          }}
+        >
           Top Localities
         </Typography>
-        <Typography variant="body2" color="primary" sx={{ cursor: "pointer", color: '#1E1B0C' }}>
+        <Typography
+          variant="body2"
+          sx={{
+            cursor: "pointer",
+            color: "#1E1B0C",
+            textDecoration: "underline",
+          }}
+        >
           See All
         </Typography>
       </Box>
 
       {/* Tabs for Localities */}
       <Box sx={{ position: "relative", marginBottom: 1 }}>
-
         <Tabs
           value={selectedLocality}
           onChange={handleTabChange}
@@ -96,25 +124,19 @@ function TopLocalities() {
             "& .MuiTabs-indicator": {
               background: "linear-gradient(90deg, #FF3131, #991D1D)",
               height: "3px",
-              zIndex: 2
-
+              zIndex: 2,
             },
             "& .MuiTab-root": {
               textTransform: "none",
               fontFamily: "Gilroy, sans-serif",
               fontStyle: "italic",
-              color: 'black',
-
-
+              color: "black",
             },
           }}
         >
-          <Tab label="Janakpuri" />
-          <Tab label="Dwarka" />
-          <Tab label="Uttamnagar" />
-          <Tab label="Janakpuri" />
-          <Tab label="Dwarka" />
-          <Tab label="Uttamnagar" />
+          {localities.map((locality, index) => (
+            <Tab key={index} label={locality} />
+          ))}
         </Tabs>
 
         {/* Gray underline spanning full width */}
@@ -126,138 +148,34 @@ function TopLocalities() {
             width: "100%",
             height: "1px",
             backgroundColor: "lightgray",
-            zIndex: 1, 
+            zIndex: 1,
           }}
         />
       </Box>
 
-      {/* Property Cards */}
+      {/* Property Cards - Horizontal Scroll */}
       <Box
         sx={{
           display: "flex",
           overflowX: "auto",
-          gap: 1, 
-          scrollBehavior: "smooth", 
+          gap: 1,
+          scrollBehavior: "smooth",
           paddingBottom: 2,
           "&::-webkit-scrollbar": {
             display: "none",
           },
         }}
       >
-        {properties.map((property, index) => (
-          <Card
-            key={index}
-            sx={{
-              width: {
-                xs: "49%", 
-                sm: "40%", 
-                md: "30%", 
-                lg: "20%", 
-                xl: "20%", 
-              },
-              borderRadius: 2,
-              border: "1px solid #EAEAE7",
-              flex: "0 0 auto", 
-            }}
-          >
-            {/* Property Image */}
-            <Box sx={{ position: "relative" }}>
-              <Box sx={{ padding: {xs:1,md:2} }}>
-                <CardMedia
-                  component="img"
-                  image={property.imageUrl}
-                  alt={property.title}
-                  sx={{
-                    objectFit: "contain",
-                    borderRadius: "10px",
-                  }}
-                />
-              </Box>
-
-              <Box
-                sx={{
-                  position: "absolute",
-                  top: {xs:10,md:20,xl:20},
-                  right: {xs:10,md:20,xl:20},
-                  padding: 0.5,
-                  borderRadius: "50%",
-                }}
-              >
-                <img src={bookmarkIcon} alt="Bookmark" width={25} height={25} />
-              </Box>
-            </Box>
-
-            {/* Property Details */}
-            <Box sx={{padding:1}}>
-              <Typography
-                variant="h5"
-                fontWeight="bold"
-                sx={{ fontSize: { xs: "0.8rem", sm: "1rem" } }}
-              >
-                {property.title}
-                <Typography
-                  component="span"
-                  variant="body2"
-                  color="text.secondary"
-                  sx={{
-                    float: "right",
-                    fontSize: { xs: "0.55rem", sm: "0.8rem" },
-                  }}
-                >
-                  {property.area}
-                </Typography>
-              </Typography>
-              <Typography
-                variant="body2"
-                color="text.secondary"
-                sx={{ fontSize: { xs: "0.55rem", sm: "0.8rem" } }}
-              >
-                {property.location}
-              </Typography>
-              <Typography
-                variant="body2"
-                sx={{
-                  marginY: 1,
-                  fontSize: { xs: "0.55rem", sm: "0.8rem" },
-                }}
-              >
-                {property.details}
-              </Typography>
-              <Box
-                sx={{
-                  display: "flex",
-                  alignItems: "center",
-                  justifyContent: "space-between",
-                }}
-              >
-                <Box sx={{ display: "flex", alignItems: "center", gap: 0.5 }}>
-                  <VisibilityIcon fontSize="small" color="disabled" />
-                  <Typography
-                    variant="caption"
-                    sx={{ fontSize: { xs: "0.55rem", sm: "0.8rem" } }}
-                  >
-                    {property.views}
-                  </Typography>
-                </Box>
-                <Button
-                  variant="contained"
-                  sx={{
-                    backgroundColor: "#FF3131",
-                    textTransform: "none",
-                    fontFamily: "Poppins, sans-serif",
-                    fontWeight: 600,
-                    fontSize: { xs: "0.40rem", sm: "0.875rem" },
-                  }}
-                  size="small"
-                >
-                  Book Appointment
-                </Button>
-              </Box>
-            </Box>
-          </Card>
-        ))}
+        {filteredProperties.length > 0 ? (
+          filteredProperties.map((property, index) => (
+            <PropertyCard key={index} property={property} />
+          ))
+        ) : (
+          <Typography variant="body2" color="text.secondary">
+            No properties available for {localities[selectedLocality]}.
+          </Typography>
+        )}
       </Box>
-
     </Box>
   );
 }

@@ -2,11 +2,13 @@ import React, { useState } from 'react';
 import { AppBar, Box, Button, IconButton, Menu, MenuItem, Toolbar, Typography } from '@mui/material';
 import menuImage from "../../assets/images/menu.png";
 import mobileImage from "../../assets/images/mobile.png"
-import Sidebar from '../sideBar';
+import Sidebar from "../../pages/sideBar";
+import { useLoginModal } from '../../context';
 
-const Header = () => {
+const Header = ({onLoginClick}) => {
 
   const [sidebar, setSidebar] = useState(false);
+  const { openLoginModal } = useLoginModal(); 
 
   const handleSideBar = () => {
     setSidebar(!sidebar);

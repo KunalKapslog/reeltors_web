@@ -10,11 +10,9 @@ import {
 } from "@mui/material";
 import CloseIcon from "@mui/icons-material/Close";
 import VisibilityIcon from "@mui/icons-material/Visibility";
-import VisibilityOffIcon from "@mui/icons-material/VisibilityOff";
 import PersonIcon from "@mui/icons-material/Person";
-import EmailOutlinedIcon from "@mui/icons-material/EmailOutlined";
-import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
 import { useNavigate } from "react-router-dom";
+import { EmailIcon,LockOutlinedIcon,RegisterAvatar,VisibilityOffIcon } from "../../../assets/icons";
 
 const PasswordField = ({
   placeholder,
@@ -45,7 +43,7 @@ const PasswordField = ({
     InputProps={{
       startAdornment: (
         <InputAdornment position="start">
-          <LockOutlinedIcon sx={{ color: "#555555" }} />
+          <LockOutlinedIcon height={20} width={20} />
         </InputAdornment>
       ),
       endAdornment: (
@@ -64,7 +62,7 @@ const PasswordField = ({
   />
 );
 
-const SignUpPage = () => {
+const SignUpPage = ({switchToLogin, onClose}) => {
   const navigate = useNavigate();
 
   const [form, setForm] = useState({
@@ -110,18 +108,16 @@ const SignUpPage = () => {
         display: "flex",
         alignItems: "center",
         justifyContent: "center",
-        minHeight: "100vh",
-        bgcolor: "white",
         p: 2,
       }}
     >
       <Box
         sx={{
           width: "90%",
-          maxWidth: "600px",
-          bgcolor: "#ffffff",
-          borderRadius: 3,
-          boxShadow: "0px 4px 16px rgba(0, 0, 0, 0.2)",
+          // maxWidth: "600px",
+          // bgcolor: "#ffffff",
+          // borderRadius: 3,
+          // boxShadow: "0px 4px 16px rgba(0, 0, 0, 0.2)",
           padding: 2,
           position: "relative",
         }}
@@ -129,7 +125,7 @@ const SignUpPage = () => {
         {/* Close Icon */}
         <IconButton
           sx={{ position: "absolute", top: 10, right: 10 }}
-          onClick={() => navigate("/")}
+          onClick={onClose}
         >
           <CloseIcon sx={{ color: "#333333", fontSize: "20px" }} />
         </IconButton>
@@ -142,7 +138,7 @@ const SignUpPage = () => {
             cursor: "pointer",
             mb: 3,
           }}
-          onClick={() => navigate("/login")}
+          onClick={switchToLogin}
         >
           <Typography
             variant="h6"
@@ -210,7 +206,7 @@ const SignUpPage = () => {
             InputProps={{
               startAdornment: (
                 <InputAdornment position="start">
-                  <PersonIcon sx={{ color: "#555555" }} />
+                  <RegisterAvatar height={20} width={20}/>
                 </InputAdornment>
               ),
               sx: {
@@ -245,7 +241,7 @@ const SignUpPage = () => {
             InputProps={{
               startAdornment: (
                 <InputAdornment position="start">
-                  <EmailOutlinedIcon sx={{ color: "#555555" }} />
+                  <EmailIcon height={20} width={20}/>
                 </InputAdornment>
               ),
               sx: {
@@ -290,7 +286,7 @@ const SignUpPage = () => {
             onClick={handleSubmit}
             sx={{
               width: { xs: "100%", sm: "50%" },
-              bgcolor: "#ff3d00",
+              bgcolor: "#FF3131",
               color: "#ffffff",
               textTransform: "none",
               fontFamily: "'Poppins', sans-serif",

@@ -3,6 +3,7 @@ import { Box, Button, Divider, Typography } from "@mui/material";
 import InfoOutlinedIcon from "@mui/icons-material/InfoOutlined";
 import HelpOutlineOutlinedIcon from "@mui/icons-material/HelpOutline";
 import ChevronRightOutlinedIcon from "@mui/icons-material/ChevronRightOutlined";
+import { AboutUs, GetHelpIcon } from "../../../../assets/icons";
 
 const FooterSideBar = () => {
     return (
@@ -27,7 +28,7 @@ const FooterSideBar = () => {
                     }}
                 >
                     <Box sx={{ display: "flex", alignItems: "center", gap: "8px" }}>
-                        <InfoOutlinedIcon />
+                        <AboutUs />
                         <Typography sx={{ color: "#1E1B0C", fontSize: '14px', opacity: 0.8 }}>About Us</Typography>
                     </Box>
                     <ChevronRightOutlinedIcon sx={{ color: '#646464', opacity: 0.45 }} />
@@ -48,7 +49,7 @@ const FooterSideBar = () => {
                     }}
                 >
                     <Box sx={{ display: "flex", alignItems: "center", gap: "8px" }}>
-                        <HelpOutlineOutlinedIcon />
+                        <GetHelpIcon />
                         <Typography sx={{ color: "#1E1B0C", fontSize: '14px', opacity: 0.8 }}>Get Help</Typography>
                     </Box>
 

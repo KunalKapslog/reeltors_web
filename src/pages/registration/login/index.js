@@ -9,22 +9,11 @@ import {
   InputAdornment,
 } from "@mui/material";
 import CloseIcon from "@mui/icons-material/Close";
-import AppleIcon from "@mui/icons-material/Apple";
-import VisibilityOffIcon from "@mui/icons-material/VisibilityOff";
-import VisibilityIcon from "@mui/icons-material/Visibility";
-import EmailOutlinedIcon from "@mui/icons-material/EmailOutlined";
-import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
 import { useNavigate } from "react-router-dom";
+import { EmailIcon,LockOutlinedIcon,VisibilityOffIcon,AppleIcon,GoogleIcon } from "../../../assets/icons";
 
-const GoogleIcon = () => (
-  <img
-    src="https://cdn-icons-png.flaticon.com/512/281/281764.png"
-    alt="Google Icon"
-    style={{ width: 20, height: 20 }}
-  />
-);
 
-const LoginPage = () => {
+const LoginPage = ({ switchToSignup, onClose }) => {
   const navigate = useNavigate();
   const [showPassword, setShowPassword] = useState(false);
   const [form, setForm] = useState({ email: "", password: "" });
@@ -60,8 +49,6 @@ const LoginPage = () => {
         display: "flex",
         alignItems: "center",
         justifyContent: "center",
-        minHeight: "100vh",
-        bgcolor: "white",
         p: 2,
         overflowX: "hidden",
       }}
@@ -69,10 +56,10 @@ const LoginPage = () => {
       <Box
         sx={{
           width: "90%",
-          maxWidth: "600px",
-          bgcolor: "#ffffff",
-          borderRadius: 3,
-          boxShadow: "0px 4px 16px rgba(0, 0, 0, 0.2)",
+          // maxWidth: "600px",
+          // bgcolor: "#ffffff",
+          // borderRadius: 3,
+          // boxShadow: "0px 4px 16px rgba(0, 0, 0, 0.2)",
           padding: 2,
           position: "relative",
         }}
@@ -80,7 +67,8 @@ const LoginPage = () => {
         {/* Close Icon */}
         <IconButton
           sx={{ position: "absolute", top: 10, left: 8 }}
-          onClick={() => navigate("/")}
+          onClick={onClose}
+
           aria-label="Close Login Page"
         >
           <CloseIcon sx={{ color: "#333333", fontSize: "20px" }} />
@@ -102,7 +90,7 @@ const LoginPage = () => {
               cursor: "pointer",
               fontWeight: 200,
             }}
-            onClick={() => navigate("/signup")}
+            onClick={switchToSignup} 
           >
             Create New Account
           </Typography>
@@ -163,7 +151,7 @@ const LoginPage = () => {
             InputProps={{
               startAdornment: (
                 <InputAdornment position="start">
-                  <EmailOutlinedIcon sx={{ color: "#555555" }} />
+                  <EmailIcon height={20} width={20}/>
                 </InputAdornment>
               ),
               sx: {
@@ -195,14 +183,14 @@ const LoginPage = () => {
             InputProps={{
               startAdornment: (
                 <InputAdornment position="start">
-                  <LockOutlinedIcon sx={{ color: "#555555" }} />
+                  <LockOutlinedIcon height={20} width={20}/>
                 </InputAdornment>
               ),
               endAdornment: (
                 <InputAdornment position="end">
                   <IconButton onClick={togglePasswordVisibility}>
                     {showPassword ? (
-                      <VisibilityIcon sx={{ color: "#555555" }} />
+                      <VisibilityOffIcon sx={{ color: "#555555" }} />
                     ) : (
                       <VisibilityOffIcon sx={{ color: "#555555" }} />
                     )}
@@ -237,7 +225,7 @@ const LoginPage = () => {
             onClick={handleSubmit}
             sx={{
               width: { xs: "100%", sm: "50%" },
-              bgcolor: "#ff3d00",
+              bgcolor: "#FF3131",
               color: "#ffffff",
               textTransform: "none",
               fontFamily: "'Poppins', sans-serif",
@@ -278,7 +266,7 @@ const LoginPage = () => {
           >
             <Button
               fullWidth
-              startIcon={<AppleIcon />}
+              startIcon={<AppleIcon height={30} width={30}/>}
               sx={{
                 textTransform: "none",
                 borderRadius: 2,
@@ -297,7 +285,7 @@ const LoginPage = () => {
             </Button>
             <Button
               fullWidth
-              startIcon={<GoogleIcon />}
+              startIcon={<GoogleIcon height={30} width={30}/>}
               sx={{
                 textTransform: "none",
                 borderRadius: 2,

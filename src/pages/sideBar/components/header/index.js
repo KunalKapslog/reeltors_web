@@ -1,16 +1,17 @@
 import React from "react";
-import { Box, Typography, Button, Avatar } from "@mui/material";
-import { useNavigate } from "react-router-dom";
+import { Box, Typography, Button } from "@mui/material";
+import { useLoginModal } from "../../../../context";
+import {AvatarIcon } from "../../../../assets/icons";
 
 const HeaderSection = () => {
 
-  const navigate = useNavigate();
+  const { openLoginModal } = useLoginModal();
+
   return (
     <Box 
       sx={{
-        bgcolor: "#1E1B0C",
         borderRadius: "8px",
-        padding: "12px",
+        padding: "10px",
         display: "flex",
         flexDirection: "column",
       }}
@@ -23,23 +24,12 @@ const HeaderSection = () => {
           marginLeft: "16px",
         }}
       >
-        <Avatar
-          sx={{
-            width: 48,
-            height: 48,
-            bgcolor: "#FFB74D",
-            marginRight: "16px",
-          }}
-        >
-          <Typography
-            sx={{
-              fontWeight: "bold",
-              color: "#1E1B0C",
-            }}
-          >
-            👤
-          </Typography>
-        </Avatar>
+    <Box mt={2} mr={2}>
+    <AvatarIcon/>
+
+    </Box>
+
+
 
         <Box>
           <Typography
@@ -48,6 +38,8 @@ const HeaderSection = () => {
               fontWeight: "bold",
               color: "white",
               marginBottom: "4px",
+              fontStyle: "italic",
+              fontFamily: "Gilroy-BlackItalic, sans-serif",
             }}
           >
             Hello,
@@ -55,9 +47,10 @@ const HeaderSection = () => {
           <Typography
             variant="body2"
             sx={{
+              fontFamily: "Gilroy-Light, sans-serif", 
               color: "#FFFFFF",
               fontSize: "10px",
-              fontWeight:200
+              fontWeight: 200,
             }}
           >
             Get personalised property that meet your requirement.
@@ -88,7 +81,9 @@ const HeaderSection = () => {
 
           }}
 
-          onClick={() => navigate("/login")}
+          onClick={openLoginModal}
+
+          // onClick={() => navigate("/login")}
         >
           Login / Signup
         </Button>
