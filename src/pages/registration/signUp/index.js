@@ -7,12 +7,14 @@ import {
   IconButton,
   InputAdornment,
   Link,
+  Snackbar,
+  Alert,
 } from "@mui/material";
 import CloseIcon from "@mui/icons-material/Close";
 import VisibilityIcon from "@mui/icons-material/Visibility";
-import PersonIcon from "@mui/icons-material/Person";
-import { useNavigate } from "react-router-dom";
-import { EmailIcon,LockOutlinedIcon,RegisterAvatar,VisibilityOffIcon } from "../../../assets/icons";
+import VisibilityOffIcon from "@mui/icons-material/VisibilityOff";
+import { EmailIcon, LockOutlinedIcon, RegisterAvatar } from "../../../assets/icons";
+import userApi from "../../../api"; // Import your API methods
 
 const PasswordField = ({
   placeholder,
@@ -62,19 +64,18 @@ const PasswordField = ({
   />
 );
 
-const SignUpPage = ({switchToLogin, onClose}) => {
-  const navigate = useNavigate();
-
+const SignUpPage = ({ switchToLogin, onClose }) => {
   const [form, setForm] = useState({
     name: "",
     email: "",
+    phoneNumber: "",
     password: "",
     confirmPassword: "",
   });
-
   const [errors, setErrors] = useState({});
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
+  const [snackbar, setSnackbar] = useState({ open: false, message: "", severity: "success" });
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -87,6 +88,9 @@ const SignUpPage = ({switchToLogin, onClose}) => {
     if (!form.email) tempErrors.email = "Email is required.";
     else if (!/\S+@\S+\.\S+/.test(form.email))
       tempErrors.email = "Invalid email address.";
+    if (!form.phoneNumber) tempErrors.phoneNumber = "Phone number is required.";
+    else if (!/^\d{10}$/.test(form.phoneNumber))
+      tempErrors.phoneNumber = "Enter a valid 10-digit phone number.";
     if (!form.password) tempErrors.password = "Password is required.";
     if (!form.confirmPassword)
       tempErrors.confirmPassword = "Confirm your password.";
@@ -96,10 +100,62 @@ const SignUpPage = ({switchToLogin, onClose}) => {
     return Object.keys(tempErrors).length === 0;
   };
 
-  const handleSubmit = () => {
+  const handleSubmit = async () => {
     if (validateForm()) {
-      console.log("Form submitted successfully!", form);
+      try {
+        const signUpData = {
+          name: form.name,
+          email: form.email,
+          phoneNumber: `+91${form.phoneNumber}`, // Prepending +91 to phone number
+          password: form.password,
+        };
+  
+        const response = await userApi.signUp(signUpData);
+  
+        // Check if token exists in the response
+        if (response.token) {
+          // Show success message
+          setSnackbar({
+            open: true,
+            message: "Sign-up successful! You can now log in.",
+            severity: "success",
+          });
+  
+          // Optional: Redirect or close modal
+          onClose();
+          switchToLogin();
+        } else if (response.message) {
+          // Show a message if server returns a message field but no token
+          setSnackbar({
+            open: true,
+            message: response.message,
+            severity: "info",
+          });
+        } else {
+          // Handle unexpected response structure
+          setSnackbar({
+            open: true,
+            message: "Unexpected response structure from the server.",
+            severity: "error",
+          });
+        }
+      } catch (error) {
+        // Handle error responses
+        setSnackbar({
+          open: true,
+          message:
+            error.message ||
+            (error.response && error.response.data.message) ||
+            "Sign-up failed. Please try again.",
+          severity: "error",
+        });
+      }
     }
+  };
+  
+
+  const handleCloseSnackbar = () => {
+    setSnackbar({ ...snackbar, open: false });
   };
 
   return (
@@ -114,10 +170,6 @@ const SignUpPage = ({switchToLogin, onClose}) => {
       <Box
         sx={{
           width: "90%",
-          // maxWidth: "600px",
-          // bgcolor: "#ffffff",
-          // borderRadius: 3,
-          // boxShadow: "0px 4px 16px rgba(0, 0, 0, 0.2)",
           padding: 2,
           position: "relative",
         }}
@@ -197,16 +249,11 @@ const SignUpPage = ({switchToLogin, onClose}) => {
                 fontSize: "12px",
                 opacity: 0.8,
               },
-
-              "& input:-webkit-autofill": {
-                WebkitBoxShadow: "0 0 0 1000px white inset", 
-                WebkitTextFillColor: "black", 
-              },
             }}
             InputProps={{
               startAdornment: (
                 <InputAdornment position="start">
-                  <RegisterAvatar height={20} width={20}/>
+                  <RegisterAvatar height={20} width={20} />
                 </InputAdornment>
               ),
               sx: {
@@ -233,15 +280,42 @@ const SignUpPage = ({switchToLogin, onClose}) => {
                 fontSize: "12px",
                 opacity: 0.8,
               },
-              "& input:-webkit-autofill": {
-                WebkitBoxShadow: "0 0 0 1000px white inset", 
-                WebkitTextFillColor: "black", 
+            }}
+            InputProps={{
+              startAdornment: (
+                <InputAdornment position="start">
+                  <EmailIcon height={20} width={20} />
+                </InputAdornment>
+              ),
+              sx: {
+                borderRadius: 2,
+              },
+            }}
+          />
+
+          {/* Phone Number Input */}
+          <TextField
+            fullWidth
+            name="phoneNumber"
+            placeholder="Mobile No"
+            value={form.phoneNumber}
+            onChange={handleChange}
+            error={!!errors.phoneNumber}
+            helperText={errors.phoneNumber}
+            variant="outlined"
+            sx={{
+              marginBottom: 2,
+              "& .MuiInputBase-input::placeholder": {
+                fontFamily: "'Poppins', sans-serif",
+                fontWeight: 500,
+                fontSize: "12px",
+                opacity: 0.8,
               },
             }}
             InputProps={{
               startAdornment: (
                 <InputAdornment position="start">
-                  <EmailIcon height={20} width={20}/>
+                  <Typography sx={{ fontWeight: 500 }}>+91</Typography>
                 </InputAdornment>
               ),
               sx: {
@@ -266,9 +340,7 @@ const SignUpPage = ({switchToLogin, onClose}) => {
           <PasswordField
             placeholder="Confirm Password"
             showPassword={showConfirmPassword}
-            toggleShowPassword={() =>
-              setShowConfirmPassword((prev) => !prev)
-            }
+            toggleShowPassword={() => setShowConfirmPassword((prev) => !prev)}
             value={form.confirmPassword}
             onChange={(e) =>
               setForm((prev) => ({
@@ -285,7 +357,6 @@ const SignUpPage = ({switchToLogin, onClose}) => {
             fullWidth
             onClick={handleSubmit}
             sx={{
-              width: { xs: "100%", sm: "50%" },
               bgcolor: "#FF3131",
               color: "#ffffff",
               textTransform: "none",
@@ -295,8 +366,6 @@ const SignUpPage = ({switchToLogin, onClose}) => {
               borderRadius: 2,
               paddingY: 1,
               mb: 3,
-              mx: "auto",
-              display: "block",
               ":hover": {
                 bgcolor: "#d32f2f",
               },
@@ -339,6 +408,22 @@ const SignUpPage = ({switchToLogin, onClose}) => {
           </Typography>
         </Box>
       </Box>
+
+      {/* Snackbar */}
+      <Snackbar
+        open={snackbar.open}
+        autoHideDuration={6000}
+        onClose={handleCloseSnackbar}
+        anchorOrigin={{ vertical: "bottom", horizontal: "center" }}
+      >
+        <Alert
+          onClose={handleCloseSnackbar}
+          severity={snackbar.severity}
+          sx={{ width: "100%" }}
+        >
+          {snackbar.message}
+        </Alert>
+      </Snackbar>
     </Box>
   );
 };

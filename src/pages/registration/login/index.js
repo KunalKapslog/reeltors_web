@@ -7,23 +7,36 @@ import {
   Divider,
   IconButton,
   InputAdornment,
+  Snackbar,
+  Alert,
 } from "@mui/material";
 import CloseIcon from "@mui/icons-material/Close";
 import { useNavigate } from "react-router-dom";
-import { EmailIcon,LockOutlinedIcon,VisibilityOffIcon,AppleIcon,GoogleIcon } from "../../../assets/icons";
-
+import {
+  EmailIcon,
+  LockOutlinedIcon,
+  VisibilityOffIcon,
+  AppleIcon,
+  GoogleIcon,
+} from "../../../assets/icons";
+import userApi from "../../../api";
 
 const LoginPage = ({ switchToSignup, onClose }) => {
   const navigate = useNavigate();
   const [showPassword, setShowPassword] = useState(false);
   const [form, setForm] = useState({ email: "", password: "" });
   const [errors, setErrors] = useState({});
+  const [apiError, setApiError] = useState("");
+  const [loading, setLoading] = useState(false);
+  const [snackbar, setSnackbar] = useState({ open: false, message: "", severity: "success" });
 
   const togglePasswordVisibility = () => setShowPassword((prev) => !prev);
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
     setForm({ ...form, [name]: value });
+    setErrors({ ...errors, [name]: "" });
+    setApiError("");
   };
 
   const validateForm = () => {
@@ -36,11 +49,46 @@ const LoginPage = ({ switchToSignup, onClose }) => {
     return Object.keys(tempErrors).length === 0;
   };
 
-  const handleSubmit = () => {
+  const handleSubmit = async () => {
     if (validateForm()) {
-      console.log("Form submitted:", form);
-      navigate('/')
+      setLoading(true);
+      try {
+        const loginData = {
+          isEmail: true,
+          email: form.email,
+          password: form.password,
+        };
+
+        const response = await userApi.login(loginData);
+
+        // Check for token in the response
+        if (response.token) {
+          localStorage.setItem("authToken", response.token); // Save token in localStorage
+
+          // Show success snackbar
+          setSnackbar({ open: true, message: "Login successful!", severity: "success" });
+
+          // Close modal and navigate
+          onClose();
+          navigate("/");
+        } else {
+          setApiError("Unexpected response from server. Please try again.");
+        }
+      } catch (error) {
+        console.error("Login failed:", error);
+        setSnackbar({
+          open: true,
+          message: error.message || "Invalid email or password. Please try again.",
+          severity: "error",
+        });
+      } finally {
+        setLoading(false);
+      }
     }
+  };
+
+  const handleCloseSnackbar = () => {
+    setSnackbar({ ...snackbar, open: false });
   };
 
   return (
@@ -56,10 +104,6 @@ const LoginPage = ({ switchToSignup, onClose }) => {
       <Box
         sx={{
           width: "90%",
-          // maxWidth: "600px",
-          // bgcolor: "#ffffff",
-          // borderRadius: 3,
-          // boxShadow: "0px 4px 16px rgba(0, 0, 0, 0.2)",
           padding: 2,
           position: "relative",
         }}
@@ -68,7 +112,6 @@ const LoginPage = ({ switchToSignup, onClose }) => {
         <IconButton
           sx={{ position: "absolute", top: 10, left: 8 }}
           onClick={onClose}
-
           aria-label="Close Login Page"
         >
           <CloseIcon sx={{ color: "#333333", fontSize: "20px" }} />
@@ -90,7 +133,7 @@ const LoginPage = ({ switchToSignup, onClose }) => {
               cursor: "pointer",
               fontWeight: 200,
             }}
-            onClick={switchToSignup} 
+            onClick={switchToSignup}
           >
             Create New Account
           </Typography>
@@ -144,14 +187,14 @@ const LoginPage = ({ switchToSignup, onClose }) => {
               },
 
               "& input:-webkit-autofill": {
-                WebkitBoxShadow: "0 0 0 1000px white inset", 
-                WebkitTextFillColor: "black", 
+                WebkitBoxShadow: "0 0 0 1000px white inset",
+                WebkitTextFillColor: "black",
               },
             }}
             InputProps={{
               startAdornment: (
                 <InputAdornment position="start">
-                  <EmailIcon height={20} width={20}/>
+                  <EmailIcon height={20} width={20} />
                 </InputAdornment>
               ),
               sx: {
@@ -183,7 +226,7 @@ const LoginPage = ({ switchToSignup, onClose }) => {
             InputProps={{
               startAdornment: (
                 <InputAdornment position="start">
-                  <LockOutlinedIcon height={20} width={20}/>
+                  <LockOutlinedIcon height={20} width={20} />
                 </InputAdornment>
               ),
               endAdornment: (
@@ -241,8 +284,23 @@ const LoginPage = ({ switchToSignup, onClose }) => {
               },
             }}
           >
-            Login Now
+            {loading ? "Logging in..." : "Login Now"}
           </Button>
+
+          {/* API Error */}
+          {apiError && (
+            <Typography
+              align="center"
+              color="error"
+              sx={{
+                mb: 2,
+                fontFamily: "'Poppins', sans-serif",
+                fontWeight: 500,
+              }}
+            >
+              {apiError}
+            </Typography>
+          )}
 
           {/* Divider */}
           <Divider
@@ -266,7 +324,7 @@ const LoginPage = ({ switchToSignup, onClose }) => {
           >
             <Button
               fullWidth
-              startIcon={<AppleIcon height={30} width={30}/>}
+              startIcon={<AppleIcon height={30} width={30} />}
               sx={{
                 textTransform: "none",
                 borderRadius: 2,
@@ -285,7 +343,7 @@ const LoginPage = ({ switchToSignup, onClose }) => {
             </Button>
             <Button
               fullWidth
-              startIcon={<GoogleIcon height={30} width={30}/>}
+              startIcon={<GoogleIcon height={30} width={30} />}
               sx={{
                 textTransform: "none",
                 borderRadius: 2,
@@ -304,6 +362,22 @@ const LoginPage = ({ switchToSignup, onClose }) => {
             </Button>
           </Box>
         </Box>
+
+        {/* Snackbar */}
+        <Snackbar
+          open={snackbar.open}
+          autoHideDuration={6000}
+          onClose={handleCloseSnackbar}
+          anchorOrigin={{ vertical: "bottom", horizontal: "center" }}
+        >
+          <Alert
+            onClose={handleCloseSnackbar}
+            severity={snackbar.severity}
+            sx={{ width: "100%" }}
+          >
+            {snackbar.message}
+          </Alert>
+        </Snackbar>
       </Box>
     </Box>
   );
